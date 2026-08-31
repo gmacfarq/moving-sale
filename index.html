@@ -326,6 +326,66 @@
     font-style: italic;
   }
 
+  .contact{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1.3rem 1.4rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .contact-title{
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.4rem;
+  }
+
+  .contact-lead{
+    margin: 0 0 1rem;
+    color: var(--ink-dim);
+    font-size: 0.92rem;
+    max-width: 52ch;
+  }
+
+  .contact-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 2.5rem;
+  }
+
+  .contact-list li{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .contact-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  .contact-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.02rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--amber);
+    padding-bottom: 1px;
+    width: max-content;
+    word-break: break-all;
+  }
+
+  .contact-value:hover{ color: var(--amber-strong); }
+  .contact-value:focus-visible{ outline: 2px solid var(--focus); outline-offset: 2px; }
+
   .board-foot{
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -496,16 +556,27 @@
         <span class="meta-label">Still available</span>
         <span class="meta-value" id="stat-available">–</span>
       </div>
-      <div class="meta">
-        <span class="meta-label">Contact</span>
-        <span class="meta-value link"><a href="mailto:g.macfarquhar57@gmail.com">g.macfarquhar57@gmail.com</a></span>
-      </div>
-      <div class="meta">
-        <span class="meta-label">Instagram</span>
-        <span class="meta-value link"><a href="https://instagram.com/itsa_graham">@itsa_graham</a></span>
-      </div>
     </div>
   </header>
+
+  <section class="contact" aria-label="How to reach me">
+    <h2 class="contact-title">Get in touch</h2>
+    <p class="contact-lead">Message me to claim an item or arrange pickup in the Inner Sunset. Text is fastest.</p>
+    <ul class="contact-list">
+      <li>
+        <span class="contact-label">Text / call</span>
+        <a class="contact-value" href="tel:+16504308712">(650) 430-8712</a>
+      </li>
+      <li>
+        <span class="contact-label">Email</span>
+        <a class="contact-value" href="mailto:g.macfarquhar57@gmail.com">g.macfarquhar57@gmail.com</a>
+      </li>
+      <li>
+        <span class="contact-label">Instagram</span>
+        <a class="contact-value" href="https://instagram.com/itsa_graham">@itsa_graham</a>
+      </li>
+    </ul>
+  </section>
 
   <nav class="filters" id="filters" aria-label="Filter by category"></nav>
 
