@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#e3e6df"/>
+  <rect x="40" y="40" width="720" height="520" fill="none" stroke="#c2c6bf" stroke-width="3" stroke-dasharray="10 8"/>
+  <text x="400" y="290" font-family="monospace" font-size="34" fill="#8a5713" text-anchor="middle">SAMPLE PHOTO 2</text>
+  <text x="400" y="335" font-family="monospace" font-size="20" fill="#9aa0a6" text-anchor="middle">replace with images/ELX-01-2.jpg</text>
+</svg>

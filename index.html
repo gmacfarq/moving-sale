@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Departure Sale</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg: #f2f3f0;
+    --surface: #ffffff;
+    --surface-2: #e8eae5;
+    --ink: #14171c;
+    --ink-dim: #545c63;
+    --line: #d4d7d1;
+    --amber: #ad6f19;
+    --amber-strong: #8a5713;
+    --sold-ink: #9aa0a6;
+    --focus: #2f6fed;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #14171b;
+      --surface: #1b2025;
+      --surface-2: #232931;
+      --ink: #eef0ee;
+      --ink-dim: #9aa3ab;
+      --line: #313941;
+      --amber: #f2a93c;
+      --amber-strong: #ffc266;
+      --sold-ink: #5b6470;
+      --focus: #5b9dff;
+    }
+  }
+
+  :root[data-theme="dark"]{
+    --bg: #14171b;
+    --surface: #1b2025;
+    --surface-2: #232931;
+    --ink: #eef0ee;
+    --ink-dim: #9aa3ab;
+    --line: #313941;
+    --amber: #f2a93c;
+    --amber-strong: #ffc266;
+    --sold-ink: #5b6470;
+    --focus: #5b9dff;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Archivo', system-ui, sans-serif;
+    line-height: 1.5;
+  }
+
+  a{ color: inherit; }
+
+  ::selection{ background: var(--amber); color: #14171b; }
+
+  .board{
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .board-head{
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber-strong);
+    margin-bottom: 0.6rem;
+  }
+
+  h1{
+    font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+    text-wrap: balance;
+  }
+
+  .tagline{
+    margin: 0 0 1.4rem;
+    max-width: 46ch;
+    color: var(--ink-dim);
+    font-size: 1rem;
+  }
+
+  .meta-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+  }
+
+  .meta{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .meta-label{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  .meta-value{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .meta-value.link{
+    word-break: break-all;
+  }
+
+  .filters{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .filter-btn{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease, background .15s ease;
+  }
+
+  .filter-btn:hover{ border-color: var(--amber); color: var(--ink); }
+
+  .filter-btn:focus-visible{ outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .filter-btn.active{
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+
+  .filter-btn .count{
+    color: var(--ink-dim);
+    margin-left: 0.35em;
+  }
+
+  .filter-btn.active .count{ color: inherit; opacity: 0.7; }
+
+  .legend{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    margin-bottom: 1.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .legend-item{ display: inline-flex; align-items: center; gap: 0.4rem; }
+
+  .dot{ width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-available{ background: var(--amber); }
+  .dot-sold{ background: var(--sold-ink); }
+
+  .manifest{
+    border-top: 1px solid var(--line);
+  }
+
+  .row{
+    display: grid;
+    grid-template-columns: 4.5rem 2.2rem 1fr 6.5rem 5.5rem;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 0.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .manifest-header{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding-top: 0;
+    padding-bottom: 0.6rem;
+  }
+
+  /* Clickable rows (items with photos) */
+  button.item-row{
+    width: 100%;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+
+  button.item-row:hover{
+    background: var(--surface);
+  }
+
+  button.item-row:focus-visible{
+    outline: 2px solid var(--focus);
+    outline-offset: -2px;
+  }
+
+  .item-row.is-sold{
+    color: var(--sold-ink);
+  }
+
+  .item-row.is-sold .item-name{
+    text-decoration: line-through;
+    text-decoration-color: var(--sold-ink);
+  }
+
+  .col-code{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--amber-strong);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .item-row.is-sold .col-code{ color: var(--sold-ink); }
+
+  .col-icon svg{
+    width: 20px;
+    height: 20px;
+    stroke: var(--ink-dim);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .col-item{ min-width: 0; }
+
+  .item-name{
+    font-weight: 600;
+    display: block;
+  }
+
+  .photo-tag{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    margin-left: 0.5em;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--amber-strong);
+    vertical-align: 1px;
+  }
+
+  .photo-tag svg{
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+  }
+
+  .item-row.is-sold .photo-tag{ color: var(--sold-ink); }
+
+  .item-note{
+    display: block;
+    font-size: 0.85rem;
+    color: var(--ink-dim);
+    margin-top: 0.15rem;
+  }
+
+  .col-cat{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .col-price{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  .col-status{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: right;
+  }
+
+  .status-available{ color: var(--amber-strong); }
+  .status-sold{ color: var(--sold-ink); }
+
+  .empty-state{
+    padding: 2rem 0.25rem;
+    color: var(--ink-dim);
+    font-style: italic;
+  }
+
+  .board-foot{
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-dim);
+    font-size: 0.92rem;
+    max-width: 60ch;
+  }
+
+  /* ---------------------------------------------------------------
+     LIGHTBOX
+     --------------------------------------------------------------- */
+
+  .lightbox[hidden]{ display: none; }
+
+  .lightbox{
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(10, 12, 15, 0.82);
+    backdrop-filter: blur(2px);
+  }
+
+  .lightbox-panel{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 1.25rem;
+  }
+
+  .lightbox-head{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .lightbox-title{
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .lightbox-sub{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+    margin: 0.25rem 0 0;
+  }
+
+  .lightbox-close{
+    flex: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--surface-2);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .lightbox-close:hover{ border-color: var(--amber); }
+  .lightbox-close:focus-visible{ outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .lightbox-stage{
+    position: relative;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+  }
+
+  .lightbox-stage img{
+    display: block;
+    max-width: 100%;
+    max-height: 60vh;
+    width: auto;
+    height: auto;
+  }
+
+  .lightbox-nav{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-nav:hover{ border-color: var(--amber); }
+  .lightbox-nav:focus-visible{ outline: 2px solid var(--focus); outline-offset: 2px; }
+  .lightbox-nav[hidden]{ display: none; }
+  .lightbox-nav.prev{ left: 0.6rem; }
+  .lightbox-nav.next{ right: 0.6rem; }
+
+  .lightbox-meta{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+  }
+
+  .lightbox-note{
+    margin: 0.6rem 0 0;
+    font-size: 0.92rem;
+    color: var(--ink-dim);
+  }
+
+  @media (max-width: 620px){
+    .row{
+      grid-template-columns: 2.2rem 1fr auto;
+      grid-template-areas:
+        "icon name price"
+        "icon note status";
+      row-gap: 0.2rem;
+    }
+    .manifest-header{ display: none; }
+    .col-icon{ grid-area: icon; }
+    .col-item{ grid-area: name; }
+    .item-note{ grid-area: note; }
+    .col-cat{ display: none; }
+    .col-price{ grid-area: price; text-align: right; }
+    .col-status{ grid-area: status; }
+    .col-code{ display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="board">
+  <header class="board-head">
+    <div class="eyebrow">Manifest — Departure Sale</div>
+    <h1>Graham's Moving Sale</h1>
+    <p class="tagline">Leaving the Bay Area in about two months — everything below needs a new home before then. Local pickup in the Inner Sunset.</p>
+    <div class="meta-row">
+      <div class="meta">
+        <span class="meta-label">Items listed</span>
+        <span class="meta-value" id="stat-total">–</span>
+      </div>
+      <div class="meta">
+        <span class="meta-label">Still available</span>
+        <span class="meta-value" id="stat-available">–</span>
+      </div>
+      <div class="meta">
+        <span class="meta-label">Contact</span>
+        <span class="meta-value link"><a href="mailto:g.macfarquhar57@gmail.com">g.macfarquhar57@gmail.com</a></span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="filters" id="filters" aria-label="Filter by category"></nav>
+
+  <div class="legend">
+    <span class="legend-item"><i class="dot dot-available"></i>Available</span>
+    <span class="legend-item"><i class="dot dot-sold"></i>Sold</span>
+    <span class="legend-item">Tap an item with <strong>Photos</strong> to see pictures</span>
+  </div>
+
+  <main>
+    <div class="row manifest-header" role="presentation">
+      <span>Code</span>
+      <span></span>
+      <span>Item</span>
+      <span style="text-align:right">Price</span>
+      <span style="text-align:right">Status</span>
+    </div>
+    <div class="manifest" id="manifest"></div>
+  </main>
+
+  <footer class="board-foot">
+    <p>Prices are firm-ish — reasonable offers welcome. First come, first served; message ahead to arrange pickup. This list updates as things sell, so check back if you're waiting on something.</p>
+  </footer>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+  <div class="lightbox-panel">
+    <div class="lightbox-head">
+      <div>
+        <p class="lightbox-title" id="lightbox-title">Item</p>
+        <p class="lightbox-sub" id="lightbox-sub">CODE · $0</p>
+      </div>
+      <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">Close ✕</button>
+    </div>
+    <div class="lightbox-stage">
+      <button type="button" class="lightbox-nav prev" id="lightbox-prev" aria-label="Previous photo">‹</button>
+      <img id="lightbox-img" alt="">
+      <button type="button" class="lightbox-nav next" id="lightbox-next" aria-label="Next photo">›</button>
+    </div>
+    <div class="lightbox-meta">
+      <span id="lightbox-count">1 / 1</span>
+      <span id="lightbox-status"></span>
+    </div>
+    <p class="lightbox-note" id="lightbox-note" hidden></p>
+  </div>
+</div>
+
+<script>
+  // ---------------------------------------------------------------
+  // ITEM DATA
+  // This is SAMPLE data so Graham can see the layout. Replace each
+  // entry below with real belongings:
+  //   code     — any short label (shown in the Code column)
+  //   category — must match one of CATEGORIES below
+  //   name     — item name
+  //   price    — number, no "$"
+  //   status   — 'available' or 'sold'
+  //   note     — optional one-line description
+  //   images   — optional array of image paths, e.g.
+  //              images: ['images/ELX-01-1.jpg', 'images/ELX-01-2.jpg']
+  //              Put the files in the images/ folder. Items with images
+  //              become clickable and open a photo viewer.
+  // ---------------------------------------------------------------
+
+  const CATEGORIES = ['Electronics', 'Books', 'Kitchen', 'Furniture', 'Clothing', 'Misc'];
+
+  const ITEMS = [
+    { code: 'ELX-01', category: 'Electronics', name: 'PlayStation 2 console (slim) + 2 controllers', price: 60, status: 'available', note: 'Memory card included, tested and working', images: ['images/sample-1.svg', 'images/sample-2.svg'] },
+    { code: 'ELX-02', category: 'Electronics', name: 'PS2 game bundle, 12 titles', price: 45, status: 'available', note: 'Mix of RPGs and sports — full list on request' },
+    { code: 'ELX-03', category: 'Electronics', name: 'Desk lamp, adjustable arm', price: 15, status: 'sold' },
+    { code: 'BK-01', category: 'Books', name: 'Field guide set — Bay Area trees & plants', price: 25, status: 'available', note: '4 volumes, good condition' },
+    { code: 'BK-02', category: 'Books', name: 'Box of assorted paperbacks', price: 10, status: 'available', note: 'Mostly fiction, ~20 books' },
+    { code: 'KIT-01', category: 'Kitchen', name: 'Cast iron skillet, 10"', price: 20, status: 'available', note: 'Well seasoned', images: ['images/sample-3.svg'] },
+    { code: 'KIT-02', category: 'Kitchen', name: '4-piece dish set', price: 18, status: 'available' },
+    { code: 'FUR-01', category: 'Furniture', name: 'IKEA Kallax shelf, 4-cube, white', price: 35, status: 'available', note: 'Some scuffs, sturdy' },
+    { code: 'FUR-02', category: 'Furniture', name: 'Folding camp chair', price: 12, status: 'sold' },
+    { code: 'CLO-01', category: 'Clothing', name: 'Work boots, size 10', price: 22, status: 'available', note: 'Lightly worn, steel toe' },
+    { code: 'CLO-02', category: 'Clothing', name: 'Rain jacket, men\'s M', price: 15, status: 'available' },
+    { code: 'MSC-01', category: 'Misc', name: 'Bike rack, trunk-mount', price: 25, status: 'available' },
+    { code: 'MSC-02', category: 'Misc', name: 'Box of camping gear', price: 30, status: 'available', note: 'Stove, cookset, headlamp' }
+  ];
+
+  // ---------------------------------------------------------------
+  // ICONS — simple line pictograms per category
+  // ---------------------------------------------------------------
+
+  const ICONS = {
+    Electronics: '<svg viewBox="0 0 24 24"><path d="M9 3v4M15 3v4M6 7h12l-1 8H7L6 7z"/><path d="M8 15v2a4 4 0 0 0 8 0v-2"/></svg>',
+    Books: '<svg viewBox="0 0 24 24"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5v-13z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5v-13z"/></svg>',
+    Kitchen: '<svg viewBox="0 0 24 24"><path d="M6 2v7a3 3 0 0 0 3 3v10M6 2v5M9 2v5M12 2v7a3 3 0 0 1-3 3"/><path d="M18 2c-2 1.5-2 4-2 6s.5 3 2 3v11"/></svg>',
+    Furniture: '<svg viewBox="0 0 24 24"><path d="M5 11V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5"/><path d="M4 11h16v5H4z"/><path d="M5 16v4M19 16v4"/></svg>',
+    Clothing: '<svg viewBox="0 0 24 24"><path d="M12 4a2 2 0 1 1 4 1.7L21 9l-2 3-3-2v10H8V10l-3 2-2-3 5-3.3A2 2 0 1 1 12 4z"/></svg>',
+    Misc: '<svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg>'
+  };
+
+  const CAMERA_ICON = '<svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></svg>';
+
+  // Inline placeholder shown if an image path is missing / fails to load.
+  const IMG_FALLBACK = 'data:image/svg+xml,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">' +
+    '<rect width="400" height="300" fill="#e8eae5"/>' +
+    '<text x="200" y="150" font-family="monospace" font-size="16" fill="#9aa0a6" ' +
+    'text-anchor="middle" dominant-baseline="middle">photo coming soon</text></svg>'
+  );
+
+  // ---------------------------------------------------------------
+  // RENDER
+  // ---------------------------------------------------------------
+
+  const money = n => '$' + n.toFixed(n % 1 ? 2 : 0);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+
+  const filtersEl = document.getElementById('filters');
+  const manifestEl = document.getElementById('manifest');
+  let activeCategory = 'All';
+
+  function hasImages(item){
+    return Array.isArray(item.images) && item.images.length > 0;
+  }
+
+  function countFor(cat){
+    return cat === 'All' ? ITEMS.length : ITEMS.filter(i => i.category === cat).length;
+  }
+
+  function renderFilters(){
+    const cats = ['All', ...CATEGORIES];
+    filtersEl.innerHTML = cats.map(cat => `
+      <button type="button" class="filter-btn${cat === activeCategory ? ' active' : ''}" data-cat="${esc(cat)}">
+        ${esc(cat)}<span class="count">${countFor(cat)}</span>
+      </button>
+    `).join('');
+
+    filtersEl.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.dataset.cat;
+        renderFilters();
+        renderManifest();
+      });
+    });
+  }
+
+  function rowInner(item){
+    const soldClass = item.status === 'sold' ? ' is-sold' : '';
+    const photoTag = hasImages(item)
+      ? `<span class="photo-tag">${CAMERA_ICON}${item.images.length} Photo${item.images.length > 1 ? 's' : ''}</span>`
+      : '';
+    return `
+      <span class="col-code">${esc(item.code)}</span>
+      <span class="col-icon" aria-hidden="true">${ICONS[item.category] || ICONS.Misc}</span>
+      <span class="col-item">
+        <span class="item-name">${esc(item.name)}${photoTag}</span>
+        ${item.note ? `<span class="item-note">${esc(item.note)}</span>` : ''}
+      </span>
+      <span class="col-price">${money(item.price)}</span>
+      <span class="col-status ${item.status === 'sold' ? 'status-sold' : 'status-available'}">${item.status === 'sold' ? 'Sold' : 'Available'}</span>
+    `.trim();
+  }
+
+  function renderManifest(){
+    const items = activeCategory === 'All'
+      ? ITEMS
+      : ITEMS.filter(i => i.category === activeCategory);
+
+    if (items.length === 0){
+      manifestEl.innerHTML = '<div class="empty-state">Nothing in this category right now.</div>';
+    } else {
+      manifestEl.innerHTML = items.map(item => {
+        const idx = ITEMS.indexOf(item);
+        const soldClass = item.status === 'sold' ? ' is-sold' : '';
+        if (hasImages(item)){
+          return `<button type="button" class="row item-row${soldClass}" data-idx="${idx}"
+            aria-label="${esc(item.name)} — view ${item.images.length} photo${item.images.length > 1 ? 's' : ''}">
+            ${rowInner(item)}
+          </button>`;
+        }
+        return `<div class="row item-row${soldClass}">${rowInner(item)}</div>`;
+      }).join('');
+
+      manifestEl.querySelectorAll('button.item-row').forEach(btn => {
+        btn.addEventListener('click', () => openLightbox(Number(btn.dataset.idx)));
+      });
+    }
+
+    document.getElementById('stat-total').textContent = ITEMS.length;
+    document.getElementById('stat-available').textContent = ITEMS.filter(i => i.status === 'available').length;
+  }
+
+  // ---------------------------------------------------------------
+  // LIGHTBOX
+  // ---------------------------------------------------------------
+
+  const lb = {
+    root: document.getElementById('lightbox'),
+    panel: document.querySelector('.lightbox-panel'),
+    img: document.getElementById('lightbox-img'),
+    title: document.getElementById('lightbox-title'),
+    sub: document.getElementById('lightbox-sub'),
+    count: document.getElementById('lightbox-count'),
+    status: document.getElementById('lightbox-status'),
+    note: document.getElementById('lightbox-note'),
+    prev: document.getElementById('lightbox-prev'),
+    next: document.getElementById('lightbox-next'),
+    close: document.getElementById('lightbox-close')
+  };
+
+  let lbItem = null;
+  let lbPos = 0;
+  let lastFocused = null;
+
+  function showPhoto(){
+    const src = lbItem.images[lbPos];
+    lb.img.src = src;
+    lb.img.alt = `${lbItem.name} — photo ${lbPos + 1}`;
+    lb.count.textContent = `${lbPos + 1} / ${lbItem.images.length}`;
+    const multi = lbItem.images.length > 1;
+    lb.prev.hidden = !multi;
+    lb.next.hidden = !multi;
+  }
+
+  lb.img.addEventListener('error', () => {
+    if (lb.img.src !== IMG_FALLBACK) lb.img.src = IMG_FALLBACK;
+  });
+
+  function openLightbox(idx){
+    lbItem = ITEMS[idx];
+    if (!lbItem || !hasImages(lbItem)) return;
+    lbPos = 0;
+    lastFocused = document.activeElement;
+
+    lb.title.textContent = lbItem.name;
+    lb.sub.textContent = `${lbItem.code} · ${money(lbItem.price)}`;
+    lb.status.textContent = lbItem.status === 'sold' ? 'Sold' : 'Available';
+    if (lbItem.note){
+      lb.note.textContent = lbItem.note;
+      lb.note.hidden = false;
+    } else {
+      lb.note.hidden = true;
+    }
+    showPhoto();
+
+    lb.root.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lb.close.focus();
+  }
+
+  function closeLightbox(){
+    lb.root.hidden = true;
+    document.body.style.overflow = '';
+    lbItem = null;
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  function step(delta){
+    if (!lbItem) return;
+    const n = lbItem.images.length;
+    lbPos = (lbPos + delta + n) % n;
+    showPhoto();
+  }
+
+  lb.close.addEventListener('click', closeLightbox);
+  lb.prev.addEventListener('click', () => step(-1));
+  lb.next.addEventListener('click', () => step(1));
+
+  lb.root.addEventListener('click', e => {
+    if (e.target === lb.root) closeLightbox();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (lb.root.hidden) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') step(-1);
+    else if (e.key === 'ArrowRight') step(1);
+  });
+
+  renderFilters();
+  renderManifest();
+</script>
+</body>
+</html>
