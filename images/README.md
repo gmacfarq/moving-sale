@@ -33,8 +33,9 @@ sips -Z 1200 images/*.jpg
 
 (ImageMagick: `mogrify -resize 1200x1200\> -quality 82 images/*.jpg`)
 
-## Placeholders
+## Remote images
 
-`sample-1.svg`, `sample-2.svg`, `sample-3.svg` are stand-ins wired to a few
-sample items so the photo viewer is visible. Delete them once you have real
-photos.
+An item's `images` entry can also be a full URL instead of a local file. The
+book covers currently on the site are hotlinked from openlibrary.org, e.g.
+`https://covers.openlibrary.org/b/id/8805168-L.jpg` — nothing is stored here for
+those.
