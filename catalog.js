@@ -1,26 +1,24 @@
 /* ===================================================================
    catalog.js — shared catalog rendering for the moving sale.
    Used by both index.html (free) and marketplace.html (flat price).
-   Each page sets `window.SALE` BEFORE this file loads to pick the
-   price mode; everything else (items, filters, lightbox) is identical.
+   Each page sets `window.SALE` BEFORE this file loads to pick which
+   price column to show; everything else (filters, lightbox) is identical.
+
+   ITEM DATA lives in books.csv (loaded at runtime). Columns:
+     code             short label shown in the Code column (e.g. BK-01)
+     category         must match one of CATEGORIES below
+     subcategory      optional; only for categories listed in SUBCATEGORIES
+     name             item name (for books: "Title — Author")
+     friends_price    price on index.html   (0 = shown as "Free")
+     marketplace_price price on marketplace.html (0 = shown as "Free")
+     status           available | sold
+     shipping         "yes" to show a "+ Ships" tag (blank = no)
+     note             optional one-line description
+     images           optional; one or more URLs separated by "|".
+                      Items with an image become clickable (photo viewer).
+   Row order sets the display order within each subcategory.
    =================================================================== */
 (function(){
-  // ---------------------------------------------------------------
-  // ITEM DATA — one object per item. Fields:
-  //   code        — short label shown in the Code column (e.g. 'BK-01')
-  //   category    — must match one of CATEGORIES below
-  //   subcategory — optional; only used for categories listed in
-  //                 SUBCATEGORIES. Must match one of those strings.
-  //   name        — item name (for books: "Title — Author")
-  //   price       — number, no "$"
-  //   status      — 'available' or 'sold'
-  //   shipping    — optional true; shows a "+ Ships" tag
-  //   note        — optional one-line description
-  //   images      — optional array of image paths or URLs. Items with
-  //                 images become clickable and open a photo viewer.
-  //                 Local files go in images/; remote URLs also work
-  //                 (book covers below are hotlinked from openlibrary.org).
-  // ---------------------------------------------------------------
 
   const CATEGORIES = ['Books', 'Electronics', 'Kitchen', 'Furniture', 'Clothing', 'Misc'];
 
@@ -39,71 +37,7 @@
     ]
   };
 
-  const ITEMS = [
-    // Every book is free (price: 0), local pickup or US shipping at cost.
-    // Cover images are hotlinked from openlibrary.org (no local copies).
-
-    // — Memoir, Politics & Place —
-    { code: "BK-53", category: 'Books', subcategory: "Memoir, Politics & Place", name: "A Promised Land — Barack Obama", price: 0, status: 'available', shipping: true, note: "Volume one of Obama's presidential memoir.", images: ["https://covers.openlibrary.org/b/id/10449357-L.jpg"] },
-    { code: "BK-54", category: 'Books', subcategory: "Memoir, Politics & Place", name: "Cool Gray City of Love — Gary Kamiya", price: 0, status: 'available', shipping: true, note: "49 essays on San Francisco, one per square mile of the city.", images: ["https://covers.openlibrary.org/b/id/8455473-L.jpg"] },
-
-    // — Psychedelics & Drug Culture —
-    { code: "BK-01", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "How to Change Your Mind — Michael Pollan", price: 0, status: 'sold', shipping: true, note: "Pollan's deep dive into the psychedelic renaissance and its science.", images: ["https://covers.openlibrary.org/b/id/8805168-L.jpg"] },
-    { code: "BK-02", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "PIHKAL: A Chemical Love Story — Ann & Alexander Shulgin", price: 0, status: 'available', shipping: true, note: "The Shulgins' cult classic — memoir plus 179 phenethylamine syntheses.", images: ["https://covers.openlibrary.org/b/id/8068464-L.jpg"] },
-    { code: "BK-03", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "Food of the Gods — Terence McKenna", price: 0, status: 'sold', shipping: true, note: "McKenna's sweeping theory of plants, consciousness, and human history.", images: ["https://covers.openlibrary.org/b/id/12899833-L.jpg"] },
-    { code: "BK-04", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "The Witches' Ointment — Thomas Hatsis", price: 0, status: 'available', shipping: true, note: "Scholarly history of psychoactive plant potions and early modern witchcraft." },
-    { code: "BK-05", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "The Psychedelic Reader — ed. Leary, Metzner & Weil", price: 0, status: 'available', shipping: true, note: "Anthology from the early-60s Psychedelic Review; Leary, Metzner, Weil.", images: ["https://covers.openlibrary.org/b/id/12912189-L.jpg"] },
-    { code: "BK-06", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "The Most Dangerous Man in America — Minutaglio & Davis", price: 0, status: 'available', shipping: true, note: "Timothy Leary's wild fugitive years, told like a thriller." },
-    { code: "BK-07", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "Fear and Loathing in Las Vegas — Hunter S. Thompson", price: 0, status: 'available', shipping: true, note: "The gonzo road-trip classic. Bat country.", images: ["https://covers.openlibrary.org/b/id/13396-L.jpg"] },
-
-    // — Food, Health & Herbalism —
-    { code: "BK-08", category: 'Books', subcategory: "Food, Health & Herbalism", name: "The Omnivore's Dilemma — Michael Pollan", price: 0, status: 'available', shipping: true, note: "Following four meals from soil to plate; modern food-chain classic.", images: ["https://covers.openlibrary.org/b/id/8596706-L.jpg"] },
-    { code: "BK-09", category: 'Books', subcategory: "Food, Health & Herbalism", name: "This Is Your Mind on Plants — Michael Pollan", price: 0, status: 'available', shipping: true, note: "Opium, caffeine, and mescaline — three plant drugs, three essays.", images: ["https://covers.openlibrary.org/b/id/10512625-L.jpg"] },
-    { code: "BK-10", category: 'Books', subcategory: "Food, Health & Herbalism", name: "Earl Mindell's Herb Bible — Earl Mindell", price: 0, status: 'available', shipping: true, note: "A-to-Z reference on herbs and their traditional uses.", images: ["https://covers.openlibrary.org/b/id/3965917-L.jpg"] },
-
-    // — Opioid Crisis & Public Health —
-    { code: "BK-11", category: 'Books', subcategory: "Opioid Crisis & Public Health", name: "Dreamland — Sam Quinones", price: 0, status: 'available', shipping: true, note: "The definitive narrative of how the opioid epidemic took hold.", images: ["https://covers.openlibrary.org/b/id/12189023-L.jpg"] },
-    { code: "BK-12", category: 'Books', subcategory: "Opioid Crisis & Public Health", name: "American Overdose — Chris McGreal", price: 0, status: 'available', shipping: true, note: "Guardian reporter's account of the prescription-opioid disaster.", images: ["https://covers.openlibrary.org/b/id/14592990-L.jpg"] },
-
-    // — Business & Investing —
-    { code: "BK-13", category: 'Books', subcategory: "Business & Investing", name: "Zero to One — Peter Thiel", price: 0, status: 'available', shipping: true, note: "Thiel's contrarian notes on startups and building the future.", images: ["https://covers.openlibrary.org/b/id/9002334-L.jpg"] },
-    { code: "BK-14", category: 'Books', subcategory: "Business & Investing", name: "Starting Something — Wayne McVicker", price: 0, status: 'available', shipping: true, note: "Insider memoir of founding Neoforma during the dot-com boom.", images: ["https://covers.openlibrary.org/b/id/960717-L.jpg"] },
-    { code: "BK-15", category: 'Books', subcategory: "Business & Investing", name: "The Intelligent Investor — Benjamin Graham", price: 0, status: 'available', shipping: true, note: "Graham's value-investing bible, with Jason Zweig commentary.", images: ["https://covers.openlibrary.org/b/id/36434-L.jpg"] },
-    { code: "BK-16", category: 'Books', subcategory: "Business & Investing", name: "Scarcity — Mullainathan & Shafir", price: 0, status: 'available', shipping: true, note: "How having too little — time or money — reshapes the mind.", images: ["https://covers.openlibrary.org/b/id/9896983-L.jpg"] },
-    { code: "BK-17", category: 'Books', subcategory: "Business & Investing", name: "David and Goliath — Malcolm Gladwell", price: 0, status: 'available', shipping: true, note: "Gladwell on underdogs and the hidden upside of disadvantages.", images: ["https://covers.openlibrary.org/b/id/7276285-L.jpg"] },
-    { code: "BK-18", category: 'Books', subcategory: "Business & Investing", name: "What the Dog Saw — Malcolm Gladwell", price: 0, status: 'available', shipping: true, note: "Collected New Yorker essays on curiosity and hidden patterns.", images: ["https://covers.openlibrary.org/b/id/8260666-L.jpg"] },
-    { code: "BK-19", category: 'Books', subcategory: "Business & Investing", name: "Blink — Malcolm Gladwell", price: 0, status: 'available', shipping: true, note: "The science of snap judgments and thinking without thinking.", images: ["https://covers.openlibrary.org/b/id/14421850-L.jpg"] },
-
-    // — Philosophy & Spirituality —
-    { code: "BK-27", category: 'Books', subcategory: "Philosophy & Spirituality", name: "Meditations — Marcus Aurelius", price: 0, status: 'available', shipping: true, note: "The Stoic emperor's private notes to himself.", images: ["https://covers.openlibrary.org/b/id/211529-L.jpg"] },
-    { code: "BK-28", category: 'Books', subcategory: "Philosophy & Spirituality", name: "The Four Agreements — Don Miguel Ruiz", price: 0, status: 'available', shipping: true, note: "Short Toltec-inspired guide to personal freedom.", images: ["https://covers.openlibrary.org/b/id/924521-L.jpg"] },
-    { code: "BK-29", category: 'Books', subcategory: "Philosophy & Spirituality", name: "What Is Tao? — Alan Watts", price: 0, status: 'available', shipping: true, note: "Slim, playful introduction to Taoist thinking.", images: ["https://covers.openlibrary.org/b/id/5245351-L.jpg"] },
-    { code: "BK-30", category: 'Books', subcategory: "Philosophy & Spirituality", name: "Walden — Thoreau", price: 0, status: 'available', shipping: true, note: "Two years, two months at the pond. American transcendentalism.", images: ["https://covers.openlibrary.org/b/id/11248037-L.jpg"] },
-    { code: "BK-31", category: 'Books', subcategory: "Philosophy & Spirituality", name: "The Doors of Perception / Heaven and Hell — Aldous Huxley", price: 0, status: 'available', shipping: true, note: "Huxley's two mescaline essays in one volume.", images: ["https://covers.openlibrary.org/b/id/39648-L.jpg"] },
-    { code: "BK-32", category: 'Books', subcategory: "Philosophy & Spirituality", name: "Man's Search for Meaning — Viktor E. Frankl", price: 0, status: 'available', shipping: true, note: "Frankl's account of the camps and the logotherapy it produced.", images: ["https://covers.openlibrary.org/b/id/11203708-L.jpg"] },
-    { code: "BK-33", category: 'Books', subcategory: "Philosophy & Spirituality", name: "The Life of the Mind — Hannah Arendt", price: 0, status: 'available', shipping: true, note: "Arendt's unfinished last work on thinking, willing, judging.", images: ["https://covers.openlibrary.org/b/id/116286-L.jpg"] },
-    { code: "BK-34", category: 'Books', subcategory: "Philosophy & Spirituality", name: "Tao Te Ching — Lao Tzu", price: 0, status: 'available', shipping: true, note: "The foundational Taoist text; 81 short chapters.", images: ["https://covers.openlibrary.org/b/id/662232-L.jpg"] },
-    { code: "BK-43", category: 'Books', subcategory: "Philosophy & Spirituality", name: "Lao Tzu: Tao Te Ching — Ursula K. Le Guin", price: 0, status: 'available', shipping: true, note: "Le Guin's own poetic rendering of the Tao Te Ching.", images: ["https://covers.openlibrary.org/b/isbn/9781570623950-L.jpg"] },
-    { code: "BK-35", category: 'Books', subcategory: "Philosophy & Spirituality", name: "Road to Heaven — Bill Porter", price: 0, status: 'available', shipping: true, note: "Bill Porter (Red Pine) tracks down living hermits in China's mountains.", images: ["https://covers.openlibrary.org/b/id/795727-L.jpg"] },
-    { code: "BK-36", category: 'Books', subcategory: "Philosophy & Spirituality", name: "Bhagavad Gita As It Is — A.C. Bhaktivedanta Swami Prabhupada", price: 0, status: 'available', shipping: true, note: "The ISKCON edition, with Sanskrit, transliteration, and purports.", images: ["https://covers.openlibrary.org/b/id/1051534-L.jpg"] },
-
-    // — Fiction & Literature —
-    { code: "BK-38", category: 'Books', subcategory: "Fiction & Literature", name: "The Sympathizer — Viet Thanh Nguyen", price: 0, status: 'available', shipping: true, note: "Pulitzer-winning novel of a double agent after the fall of Saigon.", images: ["https://covers.openlibrary.org/b/id/7913176-L.jpg"] },
-    { code: "BK-39", category: 'Books', subcategory: "Fiction & Literature", name: "The Alchemist — Paulo Coelho", price: 0, status: 'available', shipping: true, note: "The much-loved fable of a shepherd chasing his Personal Legend.", images: ["https://covers.openlibrary.org/b/id/11556106-L.jpg"] },
-    { code: "BK-40", category: 'Books', subcategory: "Fiction & Literature", name: "Demian — Hermann Hesse", price: 0, status: 'available', shipping: true, note: "Hesse's coming-of-age novel of self and shadow.", images: ["https://covers.openlibrary.org/b/id/12569297-L.jpg"] },
-    { code: "BK-41", category: 'Books', subcategory: "Fiction & Literature", name: "Slaughterhouse-Five — Kurt Vonnegut", price: 0, status: 'available', shipping: true, note: "Billy Pilgrim, unstuck in time, and the firebombing of Dresden. So it goes.", images: ["https://covers.openlibrary.org/b/id/12727001-L.jpg"] },
-    { code: "BK-42", category: 'Books', subcategory: "Fiction & Literature", name: "Once a Runner — John L. Parker, Jr.", price: 0, status: 'available', shipping: true, note: "The cult novel about a miler chasing the sub-four. Beloved by runners.", images: ["https://covers.openlibrary.org/b/id/6756910-L.jpg"] },
-
-    // — Nature, Science & Field Guides —
-    { code: "BK-44", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "The Animal Manifesto — Marc Bekoff", price: 0, status: 'available', shipping: true, note: "Bekoff's case for expanding our compassion footprint toward animals.", images: ["https://covers.openlibrary.org/b/id/11403763-L.jpg"] },
-    { code: "BK-45", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "Sibley Field Guide to Birds — Western North America — David Allen Sibley", price: 0, status: 'available', shipping: true, note: "The standard western-birds field guide, illustrated by Sibley.", images: ["https://covers.openlibrary.org/b/id/418887-L.jpg"] },
-    { code: "BK-46", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "The Hidden Life of Trees — Peter Wohlleben", price: 0, status: 'available', shipping: true, note: "A forester on how trees communicate, cooperate, and remember.", images: ["https://covers.openlibrary.org/b/isbn/9781771642484-L.jpg"] },
-    { code: "BK-47", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "On the Origin of Species — Charles Darwin", price: 0, status: 'available', shipping: true, note: "Darwin's 1859 argument for evolution by natural selection.", images: ["https://covers.openlibrary.org/b/id/7153600-L.jpg"] },
-    { code: "BK-48", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "Flora of the Santa Cruz Mountains of California — John Hunter Thomas", price: 0, status: 'available', shipping: true, note: "Thomas's classic regional flora — a local botany reference.", images: ["https://covers.openlibrary.org/b/id/13023100-L.jpg"] },
-    { code: "BK-49", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "Field Guide to Manzanitas — Kauffmann, Parker & Vasey", price: 0, status: 'available', shipping: true, note: "Photographic guide to every Arctostaphylos in California and beyond." },
-    { code: "BK-50", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "A Brief History of Time — Stephen Hawking", price: 0, status: 'available', shipping: true, note: "Hawking's bestseller on time, black holes, and the cosmos.", images: ["https://covers.openlibrary.org/b/id/10432365-L.jpg"] },
-    { code: "BK-51", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "Matrices and Linear Transformations — Charles G. Cullen", price: 0, status: 'available', shipping: true, note: "Undergraduate linear algebra text (Dover). Light wear expected.", images: ["https://covers.openlibrary.org/b/id/315100-L.jpg"] },
-  ];
+  let ITEMS = [];   // populated from books.csv at load time
 
   // ---------------------------------------------------------------
   // ICONS — simple line pictograms per category
@@ -132,22 +66,20 @@
   // RENDER
   // ---------------------------------------------------------------
 
-  // Price display is driven by window.SALE.priceMode (set per page):
-  //   'free' — always shows "Free"      (the main site)
-  //   'flat' — always shows $SALE.flatPrice   (the Marketplace share link)
-  //   'item' — shows each item's own price, "Free" when 0
-  const SALE = Object.assign({ priceMode: 'item', flatPrice: 0 }, window.SALE || {});
+  // Which CSV price column to show is set per page via window.SALE:
+  //   index.html       -> { priceColumn: 'friends_price' }
+  //   marketplace.html -> { priceColumn: 'marketplace_price' }
+  const SALE = Object.assign({ priceColumn: 'friends_price' }, window.SALE || {});
 
+  function priceOf(item){
+    const v = item[SALE.priceColumn];
+    return (typeof v === 'number' && !isNaN(v)) ? v : 0;
+  }
   function priceText(item){
-    if (SALE.priceMode === 'free') return 'Free';
-    if (SALE.priceMode === 'flat') return SALE.flatPrice === 0 ? 'Free' : '$' + SALE.flatPrice;
-    return item.price === 0 ? 'Free' : '$' + item.price.toFixed(item.price % 1 ? 2 : 0);
+    const v = priceOf(item);
+    return v === 0 ? 'Free' : '$' + v.toFixed(v % 1 ? 2 : 0);
   }
-  function priceIsFree(item){
-    if (SALE.priceMode === 'free') return true;
-    if (SALE.priceMode === 'flat') return SALE.flatPrice === 0;
-    return item.price === 0;
-  }
+  function priceIsFree(item){ return priceOf(item) === 0; }
   const esc = s => String(s).replace(/[&<>"']/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
@@ -371,7 +303,71 @@
     else if (e.key === 'ArrowRight') step(1);
   });
 
-  renderFilters();
-  renderSubfilters();
-  renderManifest();
+  // ---------------------------------------------------------------
+  // LOAD books.csv
+  // ---------------------------------------------------------------
+
+  // Minimal RFC-4180-ish CSV parser: handles quoted fields, escaped
+  // quotes (""), commas and newlines inside quotes.
+  function parseCSV(text){
+    const rows = [];
+    let row = [], field = '', inQ = false;
+    for (let i = 0; i < text.length; i++){
+      const c = text[i];
+      if (inQ){
+        if (c === '"'){
+          if (text[i + 1] === '"'){ field += '"'; i++; }
+          else inQ = false;
+        } else field += c;
+      } else if (c === '"'){ inQ = true; }
+      else if (c === ','){ row.push(field); field = ''; }
+      else if (c === '\n' || c === '\r'){
+        if (c === '\r' && text[i + 1] === '\n') i++;
+        row.push(field); field = '';
+        if (row.some(v => v !== '')) rows.push(row);
+        row = [];
+      } else field += c;
+    }
+    if (field !== '' || row.length){ row.push(field); if (row.some(v => v !== '')) rows.push(row); }
+    return rows;
+  }
+
+  function buildItems(csvText){
+    const rows = parseCSV(csvText);
+    const head = rows.shift().map(h => h.trim());
+    const at = name => head.indexOf(name);
+    const iCode = at('code'), iCat = at('category'), iSub = at('subcategory'),
+          iName = at('name'), iFriend = at('friends_price'), iMarket = at('marketplace_price'),
+          iStatus = at('status'), iShip = at('shipping'), iNote = at('note'), iImg = at('images');
+    return rows.map(r => {
+      const num = s => { const n = parseFloat(String(s).replace(/[^0-9.]/g, '')); return isNaN(n) ? 0 : n; };
+      return {
+        code: (r[iCode] || '').trim(),
+        category: (r[iCat] || '').trim(),
+        subcategory: (r[iSub] || '').trim() || undefined,
+        name: (r[iName] || '').trim(),
+        friends_price: num(r[iFriend]),
+        marketplace_price: num(r[iMarket]),
+        status: (r[iStatus] || '').trim().toLowerCase() === 'sold' ? 'sold' : 'available',
+        shipping: /^(y|yes|true|1)$/i.test((r[iShip] || '').trim()),
+        note: (r[iNote] || '').trim() || undefined,
+        images: (r[iImg] || '').split('|').map(s => s.trim()).filter(Boolean)
+      };
+    }).filter(it => it.code);
+  }
+
+  manifestEl.innerHTML = '<div class="empty-state">Loading…</div>';
+
+  fetch('books.csv', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(text => {
+      ITEMS = buildItems(text);
+      renderFilters();
+      renderSubfilters();
+      renderManifest();
+    })
+    .catch(err => {
+      console.error('Could not load books.csv:', err);
+      manifestEl.innerHTML = '<div class="empty-state">Couldn\'t load the list right now — try refreshing.</div>';
+    });
 })();

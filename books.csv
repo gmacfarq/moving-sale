@@ -1,0 +1,46 @@
+code,category,subcategory,name,friends_price,marketplace_price,status,shipping,note,images
+BK-53,Books,"Memoir, Politics & Place",A Promised Land — Barack Obama,0,5,available,yes,Volume one of Obama's presidential memoir.,https://covers.openlibrary.org/b/id/10449357-L.jpg
+BK-54,Books,"Memoir, Politics & Place",Cool Gray City of Love — Gary Kamiya,0,5,available,yes,"49 essays on San Francisco, one per square mile of the city.",https://covers.openlibrary.org/b/id/8455473-L.jpg
+BK-01,Books,Psychedelics & Drug Culture,How to Change Your Mind — Michael Pollan,0,5,sold,yes,Pollan's deep dive into the psychedelic renaissance and its science.,https://covers.openlibrary.org/b/id/8805168-L.jpg
+BK-02,Books,Psychedelics & Drug Culture,PIHKAL: A Chemical Love Story — Ann & Alexander Shulgin,0,5,available,yes,The Shulgins' cult classic — memoir plus 179 phenethylamine syntheses.,https://covers.openlibrary.org/b/id/8068464-L.jpg
+BK-03,Books,Psychedelics & Drug Culture,Food of the Gods — Terence McKenna,0,5,sold,yes,"McKenna's sweeping theory of plants, consciousness, and human history.",https://covers.openlibrary.org/b/id/12899833-L.jpg
+BK-04,Books,Psychedelics & Drug Culture,The Witches' Ointment — Thomas Hatsis,0,5,available,yes,Scholarly history of psychoactive plant potions and early modern witchcraft.,
+BK-05,Books,Psychedelics & Drug Culture,"The Psychedelic Reader — ed. Leary, Metzner & Weil",0,5,available,yes,"Anthology from the early-60s Psychedelic Review; Leary, Metzner, Weil.",https://covers.openlibrary.org/b/id/12912189-L.jpg
+BK-06,Books,Psychedelics & Drug Culture,The Most Dangerous Man in America — Minutaglio & Davis,0,5,available,yes,"Timothy Leary's wild fugitive years, told like a thriller.",
+BK-07,Books,Psychedelics & Drug Culture,Fear and Loathing in Las Vegas — Hunter S. Thompson,0,5,available,yes,The gonzo road-trip classic. Bat country.,https://covers.openlibrary.org/b/id/13396-L.jpg
+BK-08,Books,"Food, Health & Herbalism",The Omnivore's Dilemma — Michael Pollan,0,5,available,yes,Following four meals from soil to plate; modern food-chain classic.,https://covers.openlibrary.org/b/id/8596706-L.jpg
+BK-09,Books,"Food, Health & Herbalism",This Is Your Mind on Plants — Michael Pollan,0,5,available,yes,"Opium, caffeine, and mescaline — three plant drugs, three essays.",https://covers.openlibrary.org/b/id/10512625-L.jpg
+BK-10,Books,"Food, Health & Herbalism",Earl Mindell's Herb Bible — Earl Mindell,0,5,available,yes,A-to-Z reference on herbs and their traditional uses.,https://covers.openlibrary.org/b/id/3965917-L.jpg
+BK-11,Books,Opioid Crisis & Public Health,Dreamland — Sam Quinones,0,5,available,yes,The definitive narrative of how the opioid epidemic took hold.,https://covers.openlibrary.org/b/id/12189023-L.jpg
+BK-12,Books,Opioid Crisis & Public Health,American Overdose — Chris McGreal,0,5,available,yes,Guardian reporter's account of the prescription-opioid disaster.,https://covers.openlibrary.org/b/id/14592990-L.jpg
+BK-13,Books,Business & Investing,Zero to One — Peter Thiel,0,5,available,yes,Thiel's contrarian notes on startups and building the future.,https://covers.openlibrary.org/b/id/9002334-L.jpg
+BK-14,Books,Business & Investing,Starting Something — Wayne McVicker,0,5,available,yes,Insider memoir of founding Neoforma during the dot-com boom.,https://covers.openlibrary.org/b/id/960717-L.jpg
+BK-15,Books,Business & Investing,The Intelligent Investor — Benjamin Graham,0,5,available,yes,"Graham's value-investing bible, with Jason Zweig commentary.",https://covers.openlibrary.org/b/id/36434-L.jpg
+BK-16,Books,Business & Investing,Scarcity — Mullainathan & Shafir,0,5,available,yes,How having too little — time or money — reshapes the mind.,https://covers.openlibrary.org/b/id/9896983-L.jpg
+BK-17,Books,Business & Investing,David and Goliath — Malcolm Gladwell,0,5,available,yes,Gladwell on underdogs and the hidden upside of disadvantages.,https://covers.openlibrary.org/b/id/7276285-L.jpg
+BK-18,Books,Business & Investing,What the Dog Saw — Malcolm Gladwell,0,5,available,yes,Collected New Yorker essays on curiosity and hidden patterns.,https://covers.openlibrary.org/b/id/8260666-L.jpg
+BK-19,Books,Business & Investing,Blink — Malcolm Gladwell,0,5,available,yes,The science of snap judgments and thinking without thinking.,https://covers.openlibrary.org/b/id/14421850-L.jpg
+BK-27,Books,Philosophy & Spirituality,Meditations — Marcus Aurelius,0,5,available,yes,The Stoic emperor's private notes to himself.,https://covers.openlibrary.org/b/id/211529-L.jpg
+BK-28,Books,Philosophy & Spirituality,The Four Agreements — Don Miguel Ruiz,0,5,available,yes,Short Toltec-inspired guide to personal freedom.,https://covers.openlibrary.org/b/id/924521-L.jpg
+BK-29,Books,Philosophy & Spirituality,What Is Tao? — Alan Watts,0,5,available,yes,"Slim, playful introduction to Taoist thinking.",https://covers.openlibrary.org/b/id/5245351-L.jpg
+BK-30,Books,Philosophy & Spirituality,Walden — Thoreau,0,5,available,yes,"Two years, two months at the pond. American transcendentalism.",https://covers.openlibrary.org/b/id/11248037-L.jpg
+BK-31,Books,Philosophy & Spirituality,The Doors of Perception / Heaven and Hell — Aldous Huxley,0,5,available,yes,Huxley's two mescaline essays in one volume.,https://covers.openlibrary.org/b/id/39648-L.jpg
+BK-32,Books,Philosophy & Spirituality,Man's Search for Meaning — Viktor E. Frankl,0,5,available,yes,Frankl's account of the camps and the logotherapy it produced.,https://covers.openlibrary.org/b/id/11203708-L.jpg
+BK-33,Books,Philosophy & Spirituality,The Life of the Mind — Hannah Arendt,0,5,available,yes,"Arendt's unfinished last work on thinking, willing, judging.",https://covers.openlibrary.org/b/id/116286-L.jpg
+BK-34,Books,Philosophy & Spirituality,Tao Te Ching — Lao Tzu,0,5,available,yes,The foundational Taoist text; 81 short chapters.,https://covers.openlibrary.org/b/id/662232-L.jpg
+BK-43,Books,Philosophy & Spirituality,Lao Tzu: Tao Te Ching — Ursula K. Le Guin,0,5,available,yes,Le Guin's own poetic rendering of the Tao Te Ching.,https://covers.openlibrary.org/b/isbn/9781570623950-L.jpg
+BK-35,Books,Philosophy & Spirituality,Road to Heaven — Bill Porter,0,5,available,yes,Bill Porter (Red Pine) tracks down living hermits in China's mountains.,https://covers.openlibrary.org/b/id/795727-L.jpg
+BK-36,Books,Philosophy & Spirituality,Bhagavad Gita As It Is — A.C. Bhaktivedanta Swami Prabhupada,0,5,available,yes,"The ISKCON edition, with Sanskrit, transliteration, and purports.",https://covers.openlibrary.org/b/id/1051534-L.jpg
+BK-38,Books,Fiction & Literature,The Sympathizer — Viet Thanh Nguyen,0,5,available,yes,Pulitzer-winning novel of a double agent after the fall of Saigon.,https://covers.openlibrary.org/b/id/7913176-L.jpg
+BK-39,Books,Fiction & Literature,The Alchemist — Paulo Coelho,0,5,available,yes,The much-loved fable of a shepherd chasing his Personal Legend.,https://covers.openlibrary.org/b/id/11556106-L.jpg
+BK-40,Books,Fiction & Literature,Demian — Hermann Hesse,0,5,available,yes,Hesse's coming-of-age novel of self and shadow.,https://covers.openlibrary.org/b/id/12569297-L.jpg
+BK-41,Books,Fiction & Literature,Slaughterhouse-Five — Kurt Vonnegut,0,5,available,yes,"Billy Pilgrim, unstuck in time, and the firebombing of Dresden. So it goes.",https://covers.openlibrary.org/b/id/12727001-L.jpg
+BK-42,Books,Fiction & Literature,"Once a Runner — John L. Parker, Jr.",0,5,available,yes,The cult novel about a miler chasing the sub-four. Beloved by runners.,https://covers.openlibrary.org/b/id/6756910-L.jpg
+BK-44,Books,"Nature, Science & Field Guides",The Animal Manifesto — Marc Bekoff,0,5,available,yes,Bekoff's case for expanding our compassion footprint toward animals.,https://covers.openlibrary.org/b/id/11403763-L.jpg
+BK-45,Books,"Nature, Science & Field Guides",Sibley Field Guide to Birds — Western North America — David Allen Sibley,0,5,available,yes,"The standard western-birds field guide, illustrated by Sibley.",https://covers.openlibrary.org/b/id/418887-L.jpg
+BK-46,Books,"Nature, Science & Field Guides",The Hidden Life of Trees — Peter Wohlleben,0,5,available,yes,"A forester on how trees communicate, cooperate, and remember.",https://covers.openlibrary.org/b/isbn/9781771642484-L.jpg
+BK-47,Books,"Nature, Science & Field Guides",On the Origin of Species — Charles Darwin,0,5,available,yes,Darwin's 1859 argument for evolution by natural selection.,https://covers.openlibrary.org/b/id/7153600-L.jpg
+BK-48,Books,"Nature, Science & Field Guides",Flora of the Santa Cruz Mountains of California — John Hunter Thomas,0,5,available,yes,Thomas's classic regional flora — a local botany reference.,https://covers.openlibrary.org/b/id/13023100-L.jpg
+BK-49,Books,"Nature, Science & Field Guides","Field Guide to Manzanitas — Kauffmann, Parker & Vasey",0,5,available,yes,Photographic guide to every Arctostaphylos in California and beyond.,
+BK-50,Books,"Nature, Science & Field Guides",A Brief History of Time — Stephen Hawking,0,5,available,yes,"Hawking's bestseller on time, black holes, and the cosmos.",https://covers.openlibrary.org/b/id/10432365-L.jpg
+BK-51,Books,"Nature, Science & Field Guides",Matrices and Linear Transformations — Charles G. Cullen,0,5,available,yes,Undergraduate linear algebra text (Dover). Light wear expected.,https://covers.openlibrary.org/b/id/315100-L.jpg
