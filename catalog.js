@@ -27,13 +27,13 @@
   const SUBCATEGORIES = {
     Books: [
       'Memoir, Politics & Place',
-      'Psychedelics & Drug Culture',
-      'Food, Health & Herbalism',
-      'Opioid Crisis & Public Health',
-      'Business & Investing',
       'Philosophy & Spirituality',
       'Fiction & Literature',
-      'Nature, Science & Field Guides'
+      'Food, Health & Herbalism',
+      'Nature, Science & Field Guides',
+      'Psychedelics & Drug Culture',
+      'Opioid Crisis & Public Health',
+      'Business & Investing'
     ]
   };
 
@@ -187,6 +187,10 @@
     const subs = SUBCATEGORIES[activeCategory];
     let html;
 
+    // Available items first, sold items last (stable — keeps CSV order otherwise).
+    const soldLast = arr => [...arr].sort((a, b) =>
+      (a.status === 'sold' ? 1 : 0) - (b.status === 'sold' ? 1 : 0));
+
     if (items.length === 0){
       html = '<div class="empty-state">Nothing here right now.</div>';
     } else if (subs && activeSub === 'All'){
@@ -195,15 +199,15 @@
         const group = items.filter(i => i.subcategory === s);
         if (!group.length) return '';
         return `<div class="subcat-head">${esc(s)}<span>${group.length}</span></div>`
-             + group.map(rowHTML).join('');
+             + soldLast(group).map(rowHTML).join('');
       }).join('');
       const orphans = items.filter(i => !subs.includes(i.subcategory));
       if (orphans.length){
         html += `<div class="subcat-head">Other<span>${orphans.length}</span></div>`
-              + orphans.map(rowHTML).join('');
+              + soldLast(orphans).map(rowHTML).join('');
       }
     } else {
-      html = items.map(rowHTML).join('');
+      html = soldLast(items).map(rowHTML).join('');
     }
 
     manifestEl.innerHTML = html;
