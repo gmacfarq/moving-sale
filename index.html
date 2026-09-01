@@ -717,20 +717,25 @@
   // items are grouped under sub-headings (in this order).
   const SUBCATEGORIES = {
     Books: [
+      'Memoir, Politics & Place',
       'Psychedelics & Drug Culture',
       'Food, Health & Herbalism',
       'Opioid Crisis & Public Health',
       'Business & Investing',
       'Philosophy & Spirituality',
       'Fiction & Literature',
-      'Nature, Science & Field Guides',
-      'Memoir, Politics & Place'
+      'Nature, Science & Field Guides'
     ]
   };
 
   const ITEMS = [
     // Every book is free (price: 0), local pickup or US shipping at cost.
     // Cover images are hotlinked from openlibrary.org (no local copies).
+
+    // — Memoir, Politics & Place —
+    { code: "BK-53", category: 'Books', subcategory: "Memoir, Politics & Place", name: "A Promised Land — Barack Obama", price: 0, status: 'available', shipping: true, note: "Volume one of Obama's presidential memoir.", images: ["https://covers.openlibrary.org/b/id/10449357-L.jpg"] },
+    { code: "BK-54", category: 'Books', subcategory: "Memoir, Politics & Place", name: "Cool Gray City of Love — Gary Kamiya", price: 0, status: 'available', shipping: true, note: "49 essays on San Francisco, one per square mile of the city.", images: ["https://covers.openlibrary.org/b/id/8455473-L.jpg"] },
+
     // — Psychedelics & Drug Culture —
     { code: "BK-01", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "How to Change Your Mind — Michael Pollan", price: 0, status: 'available', shipping: true, note: "Pollan's deep dive into the psychedelic renaissance and its science.", images: ["https://covers.openlibrary.org/b/id/8805168-L.jpg"] },
     { code: "BK-02", category: 'Books', subcategory: "Psychedelics & Drug Culture", name: "PIHKAL: A Chemical Love Story — Ann & Alexander Shulgin", price: 0, status: 'available', shipping: true, note: "The Shulgins' cult classic — memoir plus 179 phenethylamine syntheses.", images: ["https://covers.openlibrary.org/b/id/8068464-L.jpg"] },
@@ -787,10 +792,6 @@
     { code: "BK-49", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "Field Guide to Manzanitas — Kauffmann, Parker & Vasey", price: 0, status: 'available', shipping: true, note: "Photographic guide to every Arctostaphylos in California and beyond." },
     { code: "BK-50", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "A Brief History of Time — Stephen Hawking", price: 0, status: 'available', shipping: true, note: "Hawking's bestseller on time, black holes, and the cosmos.", images: ["https://covers.openlibrary.org/b/id/10432365-L.jpg"] },
     { code: "BK-51", category: 'Books', subcategory: "Nature, Science & Field Guides", name: "Matrices and Linear Transformations — Charles G. Cullen", price: 0, status: 'available', shipping: true, note: "Undergraduate linear algebra text (Dover). Light wear expected.", images: ["https://covers.openlibrary.org/b/id/315100-L.jpg"] },
-
-    // — Memoir, Politics & Place —
-    { code: "BK-53", category: 'Books', subcategory: "Memoir, Politics & Place", name: "A Promised Land — Barack Obama", price: 0, status: 'available', shipping: true, note: "Volume one of Obama's presidential memoir.", images: ["https://covers.openlibrary.org/b/id/10449357-L.jpg"] },
-    { code: "BK-54", category: 'Books', subcategory: "Memoir, Politics & Place", name: "Cool Gray City of Love — Gary Kamiya", price: 0, status: 'available', shipping: true, note: "49 essays on San Francisco, one per square mile of the city.", images: ["https://covers.openlibrary.org/b/id/8455473-L.jpg"] },
   ];
 
   // ---------------------------------------------------------------
