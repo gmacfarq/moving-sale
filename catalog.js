@@ -20,7 +20,7 @@
    =================================================================== */
 (function(){
 
-  const CATEGORIES = ['Books', 'Decor', 'Electronics', 'Kitchen', 'Furniture', 'Clothing', 'Misc'];
+  const CATEGORIES = ['Books', 'Records', 'Decor', 'Electronics', 'Kitchen', 'Furniture', 'Clothing', 'Misc'];
 
   // Categories listed here get a second row of filter chips, and their
   // items are grouped under sub-headings (in this order).
@@ -47,6 +47,7 @@
     Electronics: '<svg viewBox="0 0 24 24"><path d="M9 3v4M15 3v4M6 7h12l-1 8H7L6 7z"/><path d="M8 15v2a4 4 0 0 0 8 0v-2"/></svg>',
     Books: '<svg viewBox="0 0 24 24"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5v-13z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5v-13z"/></svg>',
     Decor: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="9" cy="9" r="1.4"/></svg>',
+    Records: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><circle cx="12" cy="12" r="0.6"/></svg>',
     Kitchen: '<svg viewBox="0 0 24 24"><path d="M6 2v7a3 3 0 0 0 3 3v10M6 2v5M9 2v5M12 2v7a3 3 0 0 1-3 3"/><path d="M18 2c-2 1.5-2 4-2 6s.5 3 2 3v11"/></svg>',
     Furniture: '<svg viewBox="0 0 24 24"><path d="M5 11V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5"/><path d="M4 11h16v5H4z"/><path d="M5 16v4M19 16v4"/></svg>',
     Clothing: '<svg viewBox="0 0 24 24"><path d="M12 4a2 2 0 1 1 4 1.7L21 9l-2 3-3-2v10H8V10l-3 2-2-3 5-3.3A2 2 0 1 1 12 4z"/></svg>',
